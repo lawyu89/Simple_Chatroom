@@ -5,26 +5,39 @@
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
-    Hello World
-    <form id="chat_form">
-      <input id="chat_input" type="text" placeholder="Enter Your Message!"/>
-      <input type="submit" value="Enter Message" />
+    <form id="name">
+      <input id="name_input" type="text" placeholder="Enter Your Username" required>
+      <input type="Submit" value="Start Chatting!">
     </form>
-    <div id="chatbox">
+    <div id="chatbox" style="display:none">
+      <p id="status">Not Connected to chat</p>
+      <form id="chat_form">
+        <input id="chat_input" type="text" placeholder="Enter Your Message!"/>
+        <input type="submit" value="Enter Message" />
+      </form>
     </div>
     <script >
-      var socket = io.connect('http://localhost:8080');
+      var server = io.connect('http://localhost:8080');
+      $('#name').on('submit', function(e){
+        e.preventDefault();
+        $(this).hide();
+        $('#chatbox').show();
+        var name = $('#name_input').val()
+        server.emit('join', name)
+      });
       $('#chat_form').on('submit', function(e){
         e.preventDefault();
         var message = $('#chat_input').val();
-        socket.emit('messages', message);
+        server.emit('messages', message);
       });
-      socket.on('messages', function(data){
+      server.on('connect', function(data){
+        $('#status').text('Connected to chat')
+      })
+      server.on('messages', function(data){
         insertMessage(data);
       })
       function insertMessage(data) {
-        console.log(data)
-        $('#chatbox').append('<p>'+data+'</p>')
+        $('#chatbox').append('<p>'+data.name+data.message+'</p>')
       }
     </script>
   </body>
