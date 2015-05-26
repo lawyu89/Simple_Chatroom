@@ -20,7 +20,6 @@
         socket.emit('messages', message);
       });
       socket.on('messages', function(data){
-        debugger
         insertMessage(data);
       })
       function insertMessage(data) {
