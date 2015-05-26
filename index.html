@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    Hello World
+    <form id="chat_form">
+      <input id="chat_input" type="text" placeholder="Enter Your Message!"/>
+      <input type="submit" value="Enter Message" />
+    </form>
+    <div id="chatbox">
+    </div>
+    <script >
+      var socket = io.connect('http://localhost:8080');
+      $('#chat_form').on('submit', function(e){
+        e.preventDefault();
+        var message = $('#chat_input').val();
+        socket.emit('messages', message);
+      });
+      socket.on('messages', function(data){
+        debugger
+        insertMessage(data);
+      })
+      function insertMessage(data) {
+        console.log(data)
+        $('#chatbox').append('<p>'+data+'</p>')
+      }
+    </script>
+  </body>
+</html>
