@@ -16,6 +16,8 @@
         <input type="submit" value="Enter Message" />
       </form>
     </div>
+    <div id='current_users'>
+    </div>
     <script >
       var server = io.connect('http://localhost:8080');
       $('#name').on('submit', function(e){
@@ -36,8 +38,21 @@
       server.on('messages', function(data){
         insertMessage(data);
       })
+      server.on('addUser', function(name){
+        insertUser(name)
+      })
+      server.on('removeUser', function(name){
+        $('#'+name).remove()
+        insertLeaveMessage(name)
+      })
       function insertMessage(data) {
         $('#chatbox').append('<p>'+data.name+data.message+'</p>')
+      }
+      function insertLeaveMessage(data) {
+        $('#chatbox').append('<p>'+data+' has left the chat</p>')
+      }
+      function insertUser(data){
+        $('#current_users').append('<p id='+data+'>'+data+'</p>')
       }
     </script>
   </body>
