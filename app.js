@@ -2,9 +2,17 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-var redis = require('redis');
-var redisClient = redis.createClient();
-redis.FLUSHDB
+
+var redisClient
+
+if (process.env.REDISTOGO_URL){
+  var rtg = require('url').parse(process.env.REDISTOGO_URL)
+  var redisClient = require('redis').createClient(rtg.port, rtg.hostname)
+  redisClient.auth(rtg.auth.split(':')[1])
+} else {
+  var redisClient = require('redis').createClient();
+}
+
 io.on('connection', function(client){
   console.log('Client connected...')
   client.on('join', function(name){
