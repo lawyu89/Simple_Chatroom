@@ -8,14 +8,14 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var redis = require('redis')
 
+var redisURL = url.parse(process.env.REDISCLOUD_URL);
 var redisClient
 
-if (process.env.REDISTOGO_URL){
-  var rtg = require('url').parse(process.env.REDISTOGO_URL)
-  var redisClient = require('redis').createClient(rtg.port, rtg.hostname)
-  redisClient.auth(rtg.auth.split(':')[1])
+if (process.env.REDISCLOUD_URL){
+  redisClient = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+  redisClient.auth(redisURL.auth.split(":")[1]);
 } else {
-  var redisClient = redis.createClient();
+  redisClient = redis.createClient();
 }
 
 console.log('server is up')
