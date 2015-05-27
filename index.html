@@ -19,7 +19,7 @@
     <div id='current_users'>
     </div>
     <script >
-      var server = io.connect('http://localhost:8080');
+      var server = io.connect('http://localhost:1'+(process.env.PORT||8080);
       $('#name').on('submit', function(e){
         e.preventDefault();
         $(this).hide();

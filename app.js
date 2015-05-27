@@ -1,7 +1,12 @@
 var express = require('express');
+var url = require('url');
 var app = express();
+app.set('views', __dirname + '/views');
+app.use(express.static(__dirname + '/public'));
+app.engine('html', require('ejs').renderFile);
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+var io = require('socket.io').listen(server);
+var redis = require('redis')
 
 var redisClient
 
@@ -10,8 +15,11 @@ if (process.env.REDISTOGO_URL){
   var redisClient = require('redis').createClient(rtg.port, rtg.hostname)
   redisClient.auth(rtg.auth.split(':')[1])
 } else {
-  var redisClient = require('redis').createClient();
+  var redisClient = redis.createClient();
 }
+
+console.log('server is up')
+
 
 io.on('connection', function(client){
   console.log('Client connected...')
@@ -58,9 +66,11 @@ io.on('connection', function(client){
 })
 
 app.get('/',function(req, res){
-  res.sendFile(__dirname + '/index.html')
+  res.render('index.html')
 })
 
 
 var port = Number(process.env.PORT || 8080)
-server.listen(port)
+server.listen(8080, function(){
+  console.log("Listeing on " + port)
+})
