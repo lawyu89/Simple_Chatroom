@@ -8,17 +8,15 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var redis = require('redis')
 
-var redisURL = url.parse(process.env.REDISCLOUD_URL);
 var redisClient
 
 if (process.env.REDISCLOUD_URL){
+  var redisURL = url.parse(process.env.REDISCLOUD_URL);
   redisClient = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
   redisClient.auth(redisURL.auth.split(":")[1]);
 } else {
   redisClient = redis.createClient();
 }
-
-console.log('server is up')
 
 
 io.on('connection', function(client){
@@ -71,6 +69,6 @@ app.get('/',function(req, res){
 
 
 var port = Number(process.env.PORT || 8080)
-server.listen(8080, function(){
+server.listen(port, function(){
   console.log("Listeing on " + port)
 })
