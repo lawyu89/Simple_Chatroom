@@ -1,0 +1,56 @@
+.chatbox {
+  position: relative;
+  height: 25em;
+  overflow-y: scroll;
+}
+.bdr-m {
+  border-radius: 2em;
+}
+
+.center {
+  text-align: center;
+}
+.bd-m {
+  border: .3em solid black;
+}
+
+.forms {
+  left:0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-top: .2em solid black;
+  position: absolute;
+  bottom: 0;
+
+}
+
+.inputs {
+  margin: 1em 0;
+}
+
+.users{
+  border-top: .3em black solid;
+  border-right: .3em black solid;
+  border-bottom: .3em black solid;
+  height: 25em;
+  text-align: center;
+  overflow-y: scroll;
+}
+
+.messages {
+  text-align: left;
+  padding-left: 2em;
+  padding-right: 2em;
+  font-family: 'Roboto Condensed', sans-serif;
+  word-wrap: break-word;
+}
+
+#status {
+  font-weight: bold;
+}
+
+
+.users {
+  font-weight: bold;
+}
