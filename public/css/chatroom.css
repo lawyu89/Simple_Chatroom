@@ -1,4 +1,5 @@
 .chatbox {
+  margin-top: 3.5em;
   position: relative;
   height: 25em;
   overflow-y: scroll;
