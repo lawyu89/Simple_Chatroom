@@ -28,6 +28,7 @@ io.on('connection', function(client){
   client.on('join', function(name){
     client.nickname = name;
     redisClient.lrange('messages', 0, -1, function(err, messages){
+      messages = messages.reverse();
       messages.forEach(function(message){
         client.emit("messages", JSON.parse(message));
       })
