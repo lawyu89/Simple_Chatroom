@@ -1,4 +1,4 @@
-var server = io.connect('http://'+window.location.host);
+var server = io.connect('https://'+window.location.host);
 $('#name').on('submit', function(e){
   e.preventDefault();
   $(this).hide();
